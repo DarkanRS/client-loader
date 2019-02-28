@@ -12,7 +12,7 @@ public final class RSPSLoader {
 
 	public RSPSLoader() throws Exception {
 		classMap = new HashMap<>();
-		final URL url = new File(Loader.CLIENT_PATH + File.separator + "darkanclient.jar").toURI().toURL();
+		final URL url = new File(Loader.CLIENT_PATH + File.separator + "client.jar").toURI().toURL();
 		classLoader = new URLClassLoader(new URL[] { url });
 	}
 

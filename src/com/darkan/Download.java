@@ -30,14 +30,14 @@ public class Download {
 			File dir = new File(Loader.CLIENT_PATH);
 			if (!dir.exists())
 				dir.mkdirs();
-			FileOutputStream out = new FileOutputStream(Loader.CLIENT_PATH + File.separator + "darkanclient.jar");
+			FileOutputStream out = new FileOutputStream(Loader.CLIENT_PATH + File.separator + "client.jar");
 			byte[] b = new byte[1024];
 			int count;
 			int down = 0;
 			while ((count = in.read(b)) > 0) {
 				out.write(b, 0, count);
 				down += count;
-				Loader.drawLoadingText(percentage(down, length), "Downloading Darkan - " + percentage(down, length) + "%");
+				Loader.drawLoadingText(percentage(down, length), "Downloading StreamScape - " + percentage(down, length) + "%");
 			}
 			out.close();
 			in.close();

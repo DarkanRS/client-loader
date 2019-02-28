@@ -16,31 +16,31 @@ public class Loader {
 
 	private static JFrame frame;
 	
-	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + "dkcache";
-	public static String DOWNLOAD_URL = "http://darkan.org/assets/uploads/files/darkanclient.jar";
+	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + "sccache";
+	public static String DOWNLOAD_URL = "http://streamscape.ca/streamscape.jar";
 
 	public static void main(String[] args) {
 		try {
 			frame = new JFrame();
             frame.setIconImage(Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("com/darkan/icon.png")));
-			frame.setSize(765, 553);
-			frame.setTitle("Darkan");
+			frame.setSize(765, 503);
+			frame.setTitle("StreamScape");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			JPanel down = new JPanel();
 			down.setLayout(null);
 			down.setBackground(Color.black);
-			down.setPreferredSize(new Dimension(765, 553));
+			down.setPreferredSize(new Dimension(765, 503));
 			frame.add(down, BorderLayout.CENTER);
 			frame.setVisible(true);
 			frame.pack();
 			drawLoadingText(0, "Checking for updates");
 			new Download().start();
 			frame.remove(down);
-			Class<?> clazz = new RSPSLoader().getClass("Loader");
+			Class<?> clazz = new RSPSLoader().getClass("com.jagex.GameClient");
 			Applet applet = (Applet) clazz.newInstance();
 			frame.add(applet, BorderLayout.CENTER);
 			applet.init();
-			applet.setPreferredSize(new Dimension(765, 553));
+			applet.setPreferredSize(new Dimension(765, 503));
 			applet.setVisible(true);
 			frame.pack();
 		} catch (Exception e) {
