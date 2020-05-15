@@ -16,15 +16,15 @@ public class Loader {
 
 	private static JFrame frame;
 	
-	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + "dkcache";
-	public static String DOWNLOAD_URL = "http://darkan.org/assets/uploads/files/darkanclient.jar";
+	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + "sasukescapecache";
+	public static String DOWNLOAD_URL = "http://game.sasukescape.com/assets/uploads/files/sasukescapeclient.jar";
 
 	public static void main(String[] args) {
 		try {
 			frame = new JFrame();
             frame.setIconImage(Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("com/darkan/icon.png")));
 			frame.setSize(765, 553);
-			frame.setTitle("Darkan");
+			frame.setTitle("SasukeScape");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			JPanel down = new JPanel();
 			down.setLayout(null);
