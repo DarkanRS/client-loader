@@ -30,14 +30,14 @@ public class Download {
 			File dir = new File(Loader.CLIENT_PATH);
 			if (!dir.exists())
 				dir.mkdirs();
-			FileOutputStream out = new FileOutputStream(Loader.CLIENT_PATH + File.separator + "darkanclient.jar");
+			FileOutputStream out = new FileOutputStream(Loader.CLIENT_PATH + File.separator + "sasukescapeclient.jar");
 			byte[] b = new byte[1024];
 			int count;
 			int down = 0;
 			while ((count = in.read(b)) > 0) {
 				out.write(b, 0, count);
 				down += count;
-				Loader.drawLoadingText(percentage(down, length), "Downloading Darkan - " + percentage(down, length) + "%");
+				Loader.drawLoadingText(percentage(down, length), "Downloading SasukeScape - " + percentage(down, length) + "%");
 			}
 			out.close();
 			in.close();
@@ -64,7 +64,7 @@ public class Download {
 	}
 
 	public static int updateExists() {
-		File file = new File(Loader.CLIENT_PATH + File.separator + "darkanclient.jar");
+		File file = new File(Loader.CLIENT_PATH + File.separator + "sasukescapeclient.jar");
 		if (!file.exists())
 			return 1;
 
@@ -81,7 +81,7 @@ public class Download {
 	}
 
 	public static String getLocalChecksum() {
-		File local = new File(Loader.CLIENT_PATH + File.separator + "darkanclient.jar");
+		File local = new File(Loader.CLIENT_PATH + File.separator + "sasukescapeclient.jar");
 		try (FileInputStream fis = new FileInputStream(local)) {
 			Loader.drawLoadingText(0, "Retrieving local checksum...");
 			return calculateMd5(fis);
@@ -92,7 +92,7 @@ public class Download {
 	}
 
 	public static String getRemoteChecksum() {
-		try (InputStream stream = new URL("http://darkan.org/assets/uploads/files/darkanclient.jar").openStream()) {
+		try (InputStream stream = new URL("http://game.sasukescape.com/assets/uploads/files/sasukescapeclient.jar").openStream()) {
 			Loader.drawLoadingText(0, "Checking remote checksum...");
 			return calculateMd5(stream);
 		} catch (Exception e) {
