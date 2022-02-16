@@ -7,6 +7,17 @@ plugins {
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+sourceSets {
+    main {
+        java {
+            srcDirs= ["src/main/java"]
+        }
+        resources {
+            srcDirs= ["src/main/resources"]
+        }
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     javaCompiler = javaToolchains.compilerFor {
         languageVersion = JavaLanguageVersion.of(8)
@@ -25,15 +36,15 @@ task('run8', type: JavaExec) {
 mainClassName = 'com.darkan.Loader'
 
 repositories {
-	mavenLocal()
-	mavenCentral()
+    mavenLocal()
+    mavenCentral()
 }
 
 group 'darkan'
 version '1.0-SNAPSHOT'
 
 dependencies {
-	
+
 }
 
 task buildJar(type: Jar) {
