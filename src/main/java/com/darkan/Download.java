@@ -1,10 +1,6 @@
 package com.darkan;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -92,7 +88,7 @@ public class Download {
 	}
 
 	public static String getRemoteChecksum() {
-		try (InputStream stream = new URL("http://darkan.org/assets/uploads/files/darkanclient.jar").openStream()) {
+		try (InputStream stream = new URL(Loader.DOWNLOAD_URL).openStream()) {
 			Loader.drawLoadingText(0, "Checking remote checksum...");
 			return calculateMd5(stream);
 		} catch (Exception e) {
@@ -126,8 +122,8 @@ public class Download {
 		char[] hexchars = new char[baLen * 2];
 		int cIdx = 0;
 		for (int i = 0; i < baLen; ++i) {
-			hexchars[cIdx++] = hexdigit[(ba[i] >> 4) & 0x0F];
-			hexchars[cIdx++] = hexdigit[ba[i] & 0x0F];
+			hexchars[cIdx++] = HEX_DIGIT[(ba[i] >> 4) & 0x0F];
+			hexchars[cIdx++] = HEX_DIGIT[ba[i] & 0x0F];
 		}
 		return new String(hexchars);
 	}
@@ -142,5 +138,5 @@ public class Download {
 		return messageDigest;
 	}
 
-	private static final char[] hexdigit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+	private static final char[] HEX_DIGIT = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 }
