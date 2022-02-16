@@ -1,0 +1,87 @@
+name: darkan
+base: core18
+title: Darkan
+version: git
+summary: An open-source 2012 Runescape emulation server.
+description: |
+  Darkan is an open-source 2012 Runescape emulation server aimed towards recreating the game the way it was back in 2012.
+  It features official servers, community-run servers, as well as open development servers for people who want to learn to
+  contribute to the project. None of these servers are affiliated with Jagex/Runescape and there are no options to purchase
+  anything.
+  
+  If you would like to contribute to the project, please visit the GitHub repository at https://github.com/DarkanRS/world-server.
+
+type: app
+grade: stable
+confinement: strict
+icon: snap/gui/darkan.png
+license: GPL-3.0
+
+parts:
+  adoptopenjdk:
+    plugin: dump
+    source: https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jre_x64_linux_hotspot_11.0.4_11.tar.gz
+    stage-packages:
+      - libxi6
+      - libxrender1
+      - libxtst6
+
+  darkan:
+    plugin: dump
+    source-type: local
+    source: build/libs/
+    stage-packages:
+      - libglu1-mesa
+      - libpulse0
+      - libasound2
+      - libasound2-plugins
+    override-pull: |
+      snapcraftctl pull
+      find . -not -name 'darkan-shaded.jar' -delete
+      if [ ! -f darkan-shaded.jar ]
+      then
+        echo "Run gradle prior to running snapcraft!"
+        exit 1
+      fi
+  alsa-pulseaudio:
+    plugin: dump
+    source: .
+    override-pull: |
+      mkdir etc -p
+      cat > etc/asound.conf <<EOF
+      pcm.!default {
+          type pulse
+          fallback "sysdefault"
+          hint {
+              show on
+              description "Default ALSA Output (currently PulseAudio Sound Server)"
+          }
+      }
+      ctl.!default {
+          type pulse
+          fallback "sysdefault"
+      }
+      EOF
+layout:
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
+    bind: $SNAP/gnome-platform/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0
+  /usr/share/xml/iso-codes:
+    bind: $SNAP/gnome-platform/usr/share/xml/iso-codes
+
+apps:
+  openosrs:
+    command: bin/java -jar $SNAP/darkan-shaded.jar
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - audio-playback
+      - x11
+      - opengl
+
+    extensions: [ gnome-3-28 ]
+    environment:
+      _JAVA_OPTIONS: -Duser.home="$SNAP_USER_COMMON"
+      ALSA_CONFIG_PATH: "$SNAP/etc/asound.conf"
