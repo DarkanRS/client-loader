@@ -32,7 +32,7 @@ public class Loader {
 	private static JFrame frame;
 	private static Applet applet;
 
-	private static final Dimension FIXED_SIZE = new Dimension(765, 553);
+	private static final Dimension FIXED_SIZE = new Dimension(774, 588);
 	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + ".darkanrs";
 	public static String DOWNLOAD_URL = "https://donate.darkan.org/client.jar";
 	private static BufferedImage BACKGROUND, LOGO;
