@@ -1,28 +1,21 @@
 package com.darkan;
 
+import javax.swing.*;
 import java.applet.Applet;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Loader {
 
 	private static JFrame frame;
 	
-	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + "dkcache";
+	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + ".darkanrs";
 	public static String DOWNLOAD_URL = "http://darkan.org/assets/uploads/files/darkanclient.jar";
 
 	public static void main(String[] args) {
 		try {
 			frame = new JFrame();
-            frame.setIconImage(Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("com/darkan/icon.png")));
+			frame.setIconImage(new ImageIcon(Loader.class.getResource("icon.png")).getImage());
 			frame.setSize(765, 553);
 			frame.setTitle("Darkan");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
