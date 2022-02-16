@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Darkan
+Comment=An open-source 2012 Runescape emulation server.
+Exec=darkan
+Icon=${SNAP}/meta/gui/darkan.png
+Type=Application
+Categories=Game;
+StartupNotify=false
+Keywords=rs;osrs;old;school;runescape;darkan;rsps

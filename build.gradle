@@ -2,10 +2,14 @@ plugins {
     id 'java'
     id 'java-library'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+group 'darkan'
+version '1.0.1'
 
 sourceSets {
     main {
@@ -20,13 +24,13 @@ sourceSets {
 
 tasks.withType(JavaCompile).configureEach {
     javaCompiler = javaToolchains.compilerFor {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
-task('run8', type: JavaExec) {
+task('run11', type: JavaExec) {
     javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 
     classpath = sourceSets.main.runtimeClasspath
@@ -40,29 +44,25 @@ repositories {
     mavenCentral()
 }
 
-group 'darkan'
-version '1.0.1'
-
 dependencies {
 
 }
 
-task buildJar(type: Jar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes(
-                'Main-Class': 'com.darkan.Loader'
-        )
+tasks {
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    classifier = 'all'
-    baseName = 'MyJar'
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+
+    jar {
+        manifest {
+            attributes(
+                'Main-Class': mainClassName
+            )
+        }
     }
-            {
-                exclude "META-INF/*.SF"
-                exclude "META-INF/*.DSA"
-                exclude "META-INF/*.RSA"
-            }
-    with jar
+
+    shadowJar {
+        archiveName = "darkan-shaded.jar"
+    }
 }
