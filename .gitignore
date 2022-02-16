@@ -88,3 +88,4 @@ target/
 *.iml
 /.gradle/
 .vscode/
+darkan*.snap

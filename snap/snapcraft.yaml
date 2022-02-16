@@ -43,25 +43,6 @@ parts:
         echo "Run gradle prior to running snapcraft!"
         exit 1
       fi
-  alsa-pulseaudio:
-    plugin: dump
-    source: .
-    override-pull: |
-      mkdir etc -p
-      cat > etc/asound.conf <<EOF
-      pcm.!default {
-          type pulse
-          fallback "sysdefault"
-          hint {
-              show on
-              description "Default ALSA Output (currently PulseAudio Sound Server)"
-          }
-      }
-      ctl.!default {
-          type pulse
-          fallback "sysdefault"
-      }
-      EOF
 layout:
   /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
     bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
@@ -71,7 +52,7 @@ layout:
     bind: $SNAP/gnome-platform/usr/share/xml/iso-codes
 
 apps:
-  openosrs:
+  darkan:
     command: bin/java -jar $SNAP/darkan-shaded.jar
     plugs:
       - desktop
