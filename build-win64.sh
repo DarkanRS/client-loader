@@ -42,6 +42,7 @@ java -jar packr_${PACKR_VERSION}.jar \
     build/libs/darkan-shaded.jar \
     --mainclass \
     com.darkan.Launcher \
+    --vmargs \
     Xmx1024m \
     Xss2m \
     XX:CompileThreshold=1500 \
