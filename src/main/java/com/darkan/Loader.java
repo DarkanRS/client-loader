@@ -60,6 +60,7 @@ public class Loader {
 			frame.setPreferredSize(FIXED_SIZE);
 			frame.setTitle("Darkan");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setResizable(false);
 
 			try {
 				checkForUpdates();
@@ -132,6 +133,7 @@ public class Loader {
 				lobbyIpField.setAccessible(true);
 				lobbyIpField.set(null, lobbyBox.getItemAt(lobbyBox.getSelectedIndex()).ip);
 				frame.remove(serverSelect);
+				frame.setResizable(true);
 				initApplet();
 			} catch (Exception e) {
 				e.printStackTrace();
