@@ -13,22 +13,20 @@ then
   exit 1
 fi
 
-if ! [ -f OpenJDK11U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz ] ; then
-    curl -Lo OpenJDK11U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz \
-        https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_BUILD}/OpenJDK11U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz
+if ! [ -f OpenJDK8U-jdk_x64_linux_openj9_8u292b10_openj9-0.26.0.tar.gz ] ; then
+    curl -Lo OpenJDK8U-jdk_x64_linux_openj9_8u292b10_openj9-0.26.0.tar.gz \
+        https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u292-b10_openj9-0.26.0/OpenJDK8U-jdk_x64_linux_openj9_8u292b10_openj9-0.26.0.tar.gz
 fi
 
 rm -f packr.jar
 curl -o packr.jar https://libgdx.badlogicgames.com/ci/packr/packr.jar
 
-echo "70d2cc675155476f1d8516a7ae6729d44681e4fad5a6fc8dfa65cab36a67b7e0 OpenJDK11U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz" | sha256sum -c
-
 # packr requires a "jdk" and pulls the jre from it - so we have to place it inside
 # the jdk folder at jre/
 if ! [ -d linux-jdk ] ; then
-    tar zxf OpenJDK11U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz
+    tar zxf OpenJDK8U-jdk_x64_linux_openj9_8u292b10_openj9-0.26.0.tar.gz
     mkdir linux-jdk
-    mv jdk-11.0.4+11-jre linux-jdk/jre
+    mv jdk8u292-b10 linux-jdk
 fi
 
 if ! [ -f packr_${PACKR_VERSION}.jar ] ; then
