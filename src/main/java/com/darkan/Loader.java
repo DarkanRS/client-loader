@@ -14,8 +14,7 @@ public class Loader {
 
 	public enum Lobby {
 		OFFICIAL("Official", "prod.darkan.org"),
-		TEST("Community", "test.darkan.org"),
-		DEV("Development", "dev.darkan.org");
+		DEVELOPMENT("Development", "dev.darkan.org");
 
 		private String name, ip;
 
@@ -82,7 +81,6 @@ public class Loader {
 		ClientPanel down = new ClientPanel(BACKGROUND, LOGO);
 		down.setLayout(new BorderLayout());
 		down.setBackground(Color.black);
-		down.setBackground(Color.black);
 		down.setMinimumSize(FIXED_SIZE);
 		down.setPreferredSize(FIXED_SIZE);
 		frame.add(down, BorderLayout.CENTER);
@@ -148,7 +146,7 @@ public class Loader {
 
 	public static void startClient(Class<?> loader) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		frame.add(clientPanel, BorderLayout.CENTER);
-		Method init = loader.getMethod("startClient");
+		Method init = loader.getDeclaredMethod("startClient");
 		init.setAccessible(true);
 		init.invoke(clientPanel);
 		clientPanel.setPreferredSize(FIXED_SIZE);

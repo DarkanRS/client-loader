@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("edu.sc.seis.launch4j") version "2.5.0"
     java
 }
 
@@ -21,6 +22,29 @@ fun isNonStable(version: String): Boolean {
     return listOf("ALPHA", "BETA", "RC").any {
         version.toUpperCase().contains(it)
     }
+}
+
+task("createExecutableWindows") {
+	dependsOn("build")
+	copy {
+        from("jre")
+        into("build/exec/win/jre")
+    }
+    val createExec = tasks.withType<edu.sc.seis.launch4j.tasks.DefaultLaunch4jTask> {
+    	productName = "Darkan"
+    	errTitle = "Darkan"
+    	icon = "${projectDir}/darkan.ico"
+        outfile = "Darkan.exe"
+        mainClassName = "com.darkan.Loader"
+        outputDir = "exec/win"
+        bundledJre64Bit = true
+        jdkPreference = "preferJdk"
+        bundledJrePath = "jre"
+        copyright = "Darkan"
+    	companyName = "Darkan"
+    	downloadUrl = "https://github.com/AdoptOpenJDK/openjdk17-binaries/releases/download/jdk-2021-05-07-13-31/OpenJDK-jdk_x64_windows_openj9_2021-05-06-23-30.msi"
+    }
+    dependsOn(createExec)
 }
 
 tasks {
