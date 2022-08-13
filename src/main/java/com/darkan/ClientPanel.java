@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class ClientPanel extends JPanel {
-    private BufferedImage bg, logo;
+    private static final long serialVersionUID = 3166685278500622248L;
+    
+	private BufferedImage bg, logo;
 
     public ClientPanel(BufferedImage bg, BufferedImage logo) {
         this.bg = bg;

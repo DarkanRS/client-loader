@@ -2,19 +2,19 @@ package com.darkan;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class Loader {
 
 	public enum Lobby {
 		OFFICIAL("Official", "prod.darkan.org"),
-		TEST("Community", "test.darkan.org"),
-		DEV("Development", "dev.darkan.org");
+		DEVELOPMENT("Development", "dev.darkan.org");
 
 		private String name, ip;
 
@@ -30,7 +30,7 @@ public class Loader {
 	}
 
 	private static JFrame frame;
-	private static Applet applet;
+	private static Panel clientPanel;
 
 	private static final Dimension FIXED_SIZE = new Dimension(774, 588);
 	public static String CLIENT_PATH = System.getProperty("user.home") + File.separator + ".darkanrs";
@@ -39,6 +39,10 @@ public class Loader {
 
 	public static void main(String[] args) {
 		try {
+			System.setProperty("sun.java2d.uiScale", "1.0");
+			System.setProperty("sun.java2d.win.uiScaleX", "1.0");
+			System.setProperty("sun.java2d.win.uiScaleY", "1.0");
+			System.setProperty("sun.java2d.uiScale.enabled", "false");
 			try {
 				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			} catch (Exception e) {
@@ -81,7 +85,6 @@ public class Loader {
 		ClientPanel down = new ClientPanel(BACKGROUND, LOGO);
 		down.setLayout(new BorderLayout());
 		down.setBackground(Color.black);
-		down.setBackground(Color.black);
 		down.setMinimumSize(FIXED_SIZE);
 		down.setPreferredSize(FIXED_SIZE);
 		frame.add(down, BorderLayout.CENTER);
@@ -95,7 +98,7 @@ public class Loader {
 
 	public static void promptServer() throws Exception {
 		Class<?> clazz = new RSPSLoader().getClass("com.Loader");
-		applet = (Applet) clazz.newInstance();
+		clientPanel = (Panel) clazz.getConstructor().newInstance();
 
 		ClientPanel serverSelect = new ClientPanel(BACKGROUND, LOGO);
 		serverSelect.setLayout(null);
@@ -134,7 +137,7 @@ public class Loader {
 				lobbyIpField.set(null, lobbyBox.getItemAt(lobbyBox.getSelectedIndex()).ip);
 				frame.remove(serverSelect);
 				frame.setResizable(true);
-				initApplet();
+				startClient(clazz);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -145,11 +148,13 @@ public class Loader {
 		frame.pack();
 	}
 
-	public static void initApplet() {
-		frame.add(applet, BorderLayout.CENTER);
-		applet.init();
-		applet.setPreferredSize(FIXED_SIZE);
-		applet.setVisible(true);
+	public static void startClient(Class<?> loader) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		frame.add(clientPanel, BorderLayout.CENTER);
+		Method init = loader.getDeclaredMethod("startClient");
+		init.setAccessible(true);
+		init.invoke(clientPanel);
+		clientPanel.setPreferredSize(FIXED_SIZE);
+		clientPanel.setVisible(true);
 		frame.pack();
 	}
 
