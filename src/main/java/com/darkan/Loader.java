@@ -39,6 +39,10 @@ public class Loader {
 
 	public static void main(String[] args) {
 		try {
+			System.setProperty("sun.java2d.uiScale", "1.0");
+			System.setProperty("sun.java2d.win.uiScaleX", "1.0");
+			System.setProperty("sun.java2d.win.uiScaleY", "1.0");
+			System.setProperty("sun.java2d.uiScale.enabled", "false");
 			try {
 				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			} catch (Exception e) {
