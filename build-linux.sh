@@ -2,9 +2,9 @@
 
 set -e
 
-JDK_VER="17.0.2"
-JDK_BUILD="17"
-PACKR_VERSION="runelite-1.0"
+JDK_VER="17.0.5"
+JDK_BUILD="8"
+PACKR_VERSION="runelite-1.4"
 
 # Check if there's a client jar file - If there's no file the AppImage will not work but will still be built.
 if ! [ -e build/libs/darkan-shaded.jar ]
@@ -12,21 +12,23 @@ then
   echo "build/libs/darkan-shaded.jar not found, exiting"
   exit 1
 fi
-
-if ! [ -f openjdk-17.0.2_linux-x64_bin.tar.gz ] ; then
-    curl -Lo openjdk-17.0.2_linux-x64_bin.tar.gz \
-        https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
+echo OpenJDK17U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz
+if ! [ -f OpenJDK17U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz   ] ; then
+    curl -Lo OpenJDK17U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz  \
+        https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_BUILD}/OpenJDK17U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz 
 fi
 
-rm -f packr.jar
-curl -o packr.jar https://libgdx.badlogicgames.com/ci/packr/packr.jar
+#rm -f packr.jar
+#curl -o packr.jar https://libgdx.badlogicgames.com/ci/packr/packr.jar
 
 # packr requires a "jdk" and pulls the jre from it - so we have to place it inside
 # the jdk folder at jre/
 if ! [ -d linux-jdk ] ; then
-    tar zxf openjdk-17.0.2_linux-x64_bin.tar.gz
+    tar zxf OpenJDK17U-jre_x64_linux_hotspot_${JDK_VER}_${JDK_BUILD}.tar.gz
     mkdir linux-jdk
-    mv jdk-17.0.2 linux-jdk
+    mv jdk-${JDK_VER}+${JDK_BUILD}-jre jre
+    mv jre linux-jdk
+    cd linux-jdk
 fi
 
 if ! [ -f packr_${PACKR_VERSION}.jar ] ; then
@@ -34,7 +36,7 @@ if ! [ -f packr_${PACKR_VERSION}.jar ] ; then
         https://github.com/runelite/packr/releases/download/${PACKR_VERSION}/packr.jar
 fi
 
-echo "18b7cbaab4c3f9ea556f621ca42fbd0dc745a4d11e2a08f496e2c3196580cd53  packr_${PACKR_VERSION}.jar" | sha256sum -c
+echo "f51577b005a51331b822a18122ce08fca58cf6fee91f071d5a16354815bbe1e3  packr_${PACKR_VERSION}.jar" | sha256sum -c
 
 java -jar packr_${PACKR_VERSION}.jar \
     --platform \
