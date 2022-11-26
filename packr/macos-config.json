@@ -1,0 +1,17 @@
+{
+    "platform": "mac64",
+    "icon": "packr/darkan.icns",
+    "jdk": "osx-jdk",
+    "executable": "Darkan",
+    "classpath": [
+        "build/libs/darkan-shaded.jar"
+    ],
+    "mainclass": "com.darkan.Loader",
+    "vmargs": [
+        "-Xmx1024m",
+        "-Xss2m",
+        "-XX:CompileThreshold=1500",
+        "-Djna.nosys=true"
+    ],
+    "output": "native-osx/Darkan.app"
+}

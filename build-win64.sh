@@ -1,27 +1,34 @@
 #!/bin/bash
 
+# Requirements
+# JDK 18
+# GIT shell for running this script
+# http://www.angusj.com/resourcehacker/
+# https://jrsoftware.org/isinfo.php
+
 set -e
 
-JDK_VER="11.0.4"
-JDK_BUILD="11"
-PACKR_VERSION="runelite-1.0"
+JDK_VER="17.0.5"
+JDK_BUILD="8"
+PACKR_VERSION="runelite-1.4"
 
-if ! [ -f OpenJDK11U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip ] ; then
-    curl -Lo OpenJDK11U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip \
-        https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_BUILD}/OpenJDK11U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip
+if ! [ -f OpenJDK17U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip ] ; then
+    curl -Lo OpenJDK17U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip \
+        https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${JDK_VER}%2B${JDK_BUILD}/OpenJDK17U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip
 fi
 
-rm -f packr.jar
-curl -o packr.jar https://libgdx.badlogicgames.com/ci/packr/packr.jar
+# rm -f packr.jar
+# curl -o packr.jar https://libgdx.badlogicgames.com/ci/packr/packr.jar
 
-echo "be88c679fd24194bee71237f92f7a2a71c88f71a853a56a7c05742b0e158c1be OpenJDK11U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip" | sha256sum -c
+echo "d25a2d44c1bd9c57d49c5e98de274cd40970ab057fe304b52eb459de4ee5d8a5 OpenJDK17U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip" | sha256sum -c
 
 # packr requires a "jdk" and pulls the jre from it - so we have to place it inside
 # the jdk folder at jre/
 if ! [ -d win64-jdk ] ; then
-    unzip OpenJDK11U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip
+    unzip OpenJDK17U-jre_x64_windows_hotspot_${JDK_VER}_${JDK_BUILD}.zip
     mkdir win64-jdk
-    mv jdk-11.0.4+11-jre win64-jdk/jre
+	echo jdk-${JDK_VER}+${JDK_BUILD}-jre win64-jdk/jre
+    mv jdk-${JDK_VER}+${JDK_BUILD}-jre win64-jdk/jre
 fi
 
 if ! [ -f packr_${PACKR_VERSION}.jar ] ; then
@@ -29,7 +36,7 @@ if ! [ -f packr_${PACKR_VERSION}.jar ] ; then
         https://github.com/runelite/packr/releases/download/${PACKR_VERSION}/packr.jar
 fi
 
-echo "18b7cbaab4c3f9ea556f621ca42fbd0dc745a4d11e2a08f496e2c3196580cd53  packr_${PACKR_VERSION}.jar" | sha256sum -c
+echo "f51577b005a51331b822a18122ce08fca58cf6fee91f071d5a16354815bbe1e3  packr_${PACKR_VERSION}.jar" | sha256sum -c
 
 java -jar packr_${PACKR_VERSION}.jar \
     --platform \
